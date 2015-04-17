@@ -1,0 +1,15 @@
+name "vizkit3d_world"
+
+import_types_from "vizkit3d_worldTypes.hpp"
+
+using_library "vizkit3d_world"
+
+
+task_context "Task" do
+    needs_configuration
+    
+    property "world_file_path", "/std/string"
+
+    periodic 0.1
+end
+
