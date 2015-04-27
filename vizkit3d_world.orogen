@@ -1,15 +1,19 @@
 name "vizkit3d_world"
 
+import_types_from "base"
 import_types_from "vizkit3d_worldTypes.hpp"
 
 using_library "vizkit3d_world"
 
-
 task_context "Task" do
     needs_configuration
     
+    property "model_paths", "/std/vector</std/string>"
     property "world_file_path", "/std/string"
-
-    periodic 0.1
+    
+    input_port "model_states", "/std/vector</vizkit3d_world/ModelState>"
+    
+    port_driven "model_states"
+    
 end
 

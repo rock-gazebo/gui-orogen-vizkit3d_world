@@ -4,6 +4,7 @@
 #define VIZKIT3D_WORLD_TASK_TASK_HPP
 
 #include "vizkit3d_world/TaskBase.hpp"
+#include <vizkit3d_world/Vizkit3dWorld.hpp>
 
 namespace vizkit3d_world {
 
@@ -26,7 +27,7 @@ namespace vizkit3d_world {
 	friend class TaskBase;
     protected:
 
-
+	    Vizkit3dWorld *vizkit3dWorld;
 
     public:
         /** TaskContext constructor for Task
