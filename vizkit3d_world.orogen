@@ -10,10 +10,10 @@ task_context "Task" do
     
     property "model_paths", "/std/vector</std/string>"
     property "world_file_path", "/std/string"
-    
-    input_port "model_states", "/std/vector</vizkit3d_world/ModelState>"
-    
-    port_driven "model_states"
-    
+    property "show_gui", "bool"
+
+    input_port "pose_cmd", "/base/samples/RigidBodyState"
+
+    port_driven
 end
 

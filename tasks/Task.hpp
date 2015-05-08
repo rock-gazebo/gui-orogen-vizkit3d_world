@@ -5,6 +5,7 @@
 
 #include "vizkit3d_world/TaskBase.hpp"
 #include <vizkit3d_world/Vizkit3dWorld.hpp>
+#include <map>
 
 namespace vizkit3d_world {
 
@@ -25,6 +26,14 @@ namespace vizkit3d_world {
     class Task : public TaskBase
     {
 	friend class TaskBase;
+
+    private:
+
+	    static const std::string JOINTS_CMD_POSFIX;
+
+        std::map<std::string, std::string> mapModel;
+        std::map<std::string, RTT::base::PortInterface*> mapPorts;
+
     protected:
 
 	    Vizkit3dWorld *vizkit3dWorld;
@@ -104,6 +113,33 @@ namespace vizkit3d_world {
          * before calling start() again.
          */
         void cleanupHook();
+
+
+        /**
+         * Create and setup dynamic input ports
+         * Each model has an input port to set the joints positions and this
+         * port receives a list of base::samples::JointState
+         *
+         */
+        void setupJointsPorts();
+
+
+        /**
+         * Release joints input ports
+         */
+        void releaseJointsPorts();
+
+
+        /**
+         * Update joint informations
+         * read information from input ports and pass to vizkit3d world
+         */
+        void updateJoints();
+
+        /**
+         * Update model pose
+         */
+        void updatePose();
     };
 }
 
