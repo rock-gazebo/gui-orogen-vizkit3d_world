@@ -7,11 +7,14 @@ using namespace vizkit3d_world;
 const std::string Task::JOINTS_CMD_POSFIX = ":joints_cmd";
 
 Task::Task(std::string const& name) :
-        TaskBase(name), vizkit3dWorld(NULL) {
+        TaskBase(name), vizkit3dWorld(NULL)
+{
 }
 
 Task::Task(std::string const& name, RTT::ExecutionEngine* engine) :
-        TaskBase(name, engine), vizkit3dWorld(NULL) {
+        TaskBase(name, engine),
+        vizkit3dWorld(NULL)
+{
 }
 
 Task::~Task() {
@@ -61,8 +64,6 @@ void Task::releaseJointsPorts(){
 
     mapPorts.clear();
     mapModel.clear();
-
-
 }
 
 void Task::updateJoints() {
@@ -115,10 +116,8 @@ bool Task::configureHook() {
 }
 bool Task::startHook() {
 
-
     if (!TaskBase::startHook())
         return false;
-
 
     //Initialize vizkit3d world
     //this method initialize a thread with event loop

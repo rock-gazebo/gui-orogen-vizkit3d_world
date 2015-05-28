@@ -29,13 +29,27 @@ namespace vizkit3d_world {
 
     private:
 
+	    /**
+	     * set the posfix
+	     */
 	    static const std::string JOINTS_CMD_POSFIX;
 
+
+	    /**
+	     * map the model name and the port name
+	     */
         std::map<std::string, std::string> mapModel;
+
+        /**
+         * map the port name and the port object
+         */
         std::map<std::string, RTT::base::PortInterface*> mapPorts;
 
     protected:
 
+        /**
+         * Used to manage the scene in C/C++
+         */
 	    Vizkit3dWorld *vizkit3dWorld;
 
     public:

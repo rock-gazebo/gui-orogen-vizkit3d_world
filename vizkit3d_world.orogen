@@ -8,11 +8,17 @@ using_library "vizkit3d_world"
 task_context "Task" do
     needs_configuration
     
-    property "model_paths", "/std/vector</std/string>"
-    property "world_file_path", "/std/string"
-    property "show_gui", "bool"
+    property("model_paths", "/std/vector</std/string>")
+        .doc("Paths to resolve the model:// URIs in the world file.")
 
-    input_port "pose_cmd", "/base/samples/RigidBodyState"
+    property("world_file_path", "/std/string")
+        .doc("path to the world_file_path.")
+
+    property("show_gui", "bool", false)
+        .doc("show or not the user interface")
+
+    input_port("pose_cmd", "/base/samples/RigidBodyState")
+        .doc("it is used to set the pose of the models")
 
     port_driven
 end

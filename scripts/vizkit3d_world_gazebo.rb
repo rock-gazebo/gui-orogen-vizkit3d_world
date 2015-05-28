@@ -76,8 +76,8 @@ def run_async
 
 end
 
-#robot_model is a dependency of this orogen package.
-#insert robot_model/test_data folder in the model paths
+# robot_model is a dependency of this orogen package.
+# insert robot_model/test_data folder in the model paths
 model_path = ["#{ENV['AUTOPROJ_CURRENT_ROOT']}/gui/robot_model/test_data"]
 
 path = File.join(Dir.pwd, 'test_data', 'simple.world')
