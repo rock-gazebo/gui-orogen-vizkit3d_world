@@ -45,6 +45,8 @@ namespace vizkit3d_world {
          */
         std::map<std::string, RTT::base::PortInterface*> mapPorts;
 
+        bool showGui;
+
     protected:
 
         /**

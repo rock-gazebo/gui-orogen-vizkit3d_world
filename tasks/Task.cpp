@@ -107,10 +107,11 @@ bool Task::configureHook() {
     if (!TaskBase::configureHook())
         return false;
 
+    showGui = _show_gui.value();
     //create an instance from Vizkit3dWorld
     vizkit3dWorld = new Vizkit3dWorld(_world_file_path.value(),
                                       _model_paths.value(),
-                                      _show_gui.value());
+                                      showGui);
 
     return true;
 }
@@ -131,6 +132,10 @@ void Task::updateHook() {
     TaskBase::updateHook();
     updateJoints();
     updatePose();
+
+    if (showGui) {
+        vizkit3dWorld->notifyEvents();
+    }
 }
 
 void Task::errorHook() {

@@ -40,6 +40,10 @@ def connect_port_to(task_name, port_name, port)
 
     from_port = Orocos::Async.proxy(task_name).port(port_name)
 
+    from_port.on_unreachable do
+        $stderr.puts "the port #{port_name} from task #{task_name} it is unreachable"
+    end
+
     from_port.on_reachable do
         begin
             from_port.to_orocos_port.connect_to port
@@ -93,11 +97,12 @@ Orocos.run 'vizkit3d_world::Task' => 'vizkit3d_world' do
     #path to world file
     world_task.world_file_path = path
     #show gui
-    world_task.show_gui = false
+    world_task.show_gui = true
 
     world_task.to_proxy.on_state_change do |state|
         case state
         when :RUNNING
+            puts "resolve_gazebo_tasks"
             resolve_gazebo_tasks(sdf, world_task)
         end
     end
