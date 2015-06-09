@@ -8,8 +8,6 @@
  * which case you do not need this file
  */
 
-namespace vizkit3d_world {
-}
 
 #endif
 

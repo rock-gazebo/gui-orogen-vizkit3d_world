@@ -4,6 +4,8 @@
 #define VIZKIT3D_WORLD_TASK_TASK_HPP
 
 #include "vizkit3d_world/TaskBase.hpp"
+#include <vizkit3d_world/Vizkit3dWorld.hpp>
+#include <map>
 
 namespace vizkit3d_world {
 
@@ -24,9 +26,33 @@ namespace vizkit3d_world {
     class Task : public TaskBase
     {
 	friend class TaskBase;
+
+    private:
+
+	    /**
+	     * set the posfix
+	     */
+	    static const std::string JOINTS_CMD_POSFIX;
+
+
+	    /**
+	     * map the model name and the port name
+	     */
+        std::map<std::string, std::string> mapModel;
+
+        /**
+         * map the port name and the port object
+         */
+        std::map<std::string, RTT::base::PortInterface*> mapPorts;
+
+        bool showGui;
+
     protected:
 
-
+        /**
+         * Used to manage the scene in C/C++
+         */
+	    Vizkit3dWorld *vizkit3dWorld;
 
     public:
         /** TaskContext constructor for Task
@@ -103,6 +129,33 @@ namespace vizkit3d_world {
          * before calling start() again.
          */
         void cleanupHook();
+
+
+        /**
+         * Create and setup dynamic input ports
+         * Each model has an input port to set the joints positions and this
+         * port receives a list of base::samples::JointState
+         *
+         */
+        void setupJointsPorts();
+
+
+        /**
+         * Release joints input ports
+         */
+        void releaseJointsPorts();
+
+
+        /**
+         * Update joint informations
+         * read information from input ports and pass to vizkit3d world
+         */
+        void updateJoints();
+
+        /**
+         * Update model pose
+         */
+        void updatePose();
     };
 }
 
