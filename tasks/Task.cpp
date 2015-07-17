@@ -113,6 +113,8 @@ bool Task::configureHook() {
                                       _model_paths.value(),
                                       showGui);
 
+    vizkit3dWorld->setEventListener(this);
+
     return true;
 }
 bool Task::startHook() {

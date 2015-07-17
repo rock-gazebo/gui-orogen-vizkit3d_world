@@ -23,7 +23,7 @@ namespace vizkit3d_world {
      \endverbatim
      *  It can be dynamically adapted when the deployment is called with a prefix argument. 
      */
-    class Task : public TaskBase
+    class Task : public TaskBase, public EventListener
     {
 	friend class TaskBase;
 
@@ -156,6 +156,10 @@ namespace vizkit3d_world {
          * Update model pose
          */
         void updatePose();
+
+        virtual void onCreateWorld() {}
+
+        virtual void onDestroyWorld() {}
     };
 }
 
