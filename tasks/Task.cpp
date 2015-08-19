@@ -115,17 +115,17 @@ bool Task::configureHook() {
 
     vizkit3dWorld->setEventListener(this);
 
+    //Initialize vizkit3d world
+    //this method initialize a thread with event loop
+    vizkit3dWorld->initialize();
+    setupJointsPorts();
+
     return true;
 }
 bool Task::startHook() {
 
     if (!TaskBase::startHook())
         return false;
-
-    //Initialize vizkit3d world
-    //this method initialize a thread with event loop
-    vizkit3dWorld->initialize();
-    setupJointsPorts();
 
     return true;
 }
