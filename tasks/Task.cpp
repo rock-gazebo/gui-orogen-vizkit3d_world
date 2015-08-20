@@ -137,12 +137,12 @@ void Task::errorHook() {
 
 void Task::stopHook() {
     TaskBase::stopHook();
-    releaseJointsPorts();
 }
 
 void Task::cleanupHook() {
     TaskBase::cleanupHook();
 
+    releaseJointsPorts();
     delete vizkit3dWorld;
     vizkit3dWorld = NULL;
 }
