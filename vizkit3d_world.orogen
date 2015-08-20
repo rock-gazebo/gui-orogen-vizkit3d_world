@@ -23,11 +23,6 @@ task_context "Task" do
     property("world_file_path", "/std/string")
 
     #
-    # show or not the user interface
-    #
-    property("show_gui", "bool", false)
-
-    #
     # it is used to set the pose of the models
     #
     input_port("pose_cmd", "/base/samples/RigidBodyState").

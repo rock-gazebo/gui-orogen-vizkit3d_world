@@ -107,11 +107,9 @@ bool Task::configureHook() {
     if (!TaskBase::configureHook())
         return false;
 
-    showGui = _show_gui.value();
     //create an instance from Vizkit3dWorld
     vizkit3dWorld = new Vizkit3dWorld(_world_file_path.value(),
-                                      _model_paths.value(),
-                                      showGui);
+                                      _model_paths.value());
 
     //Initialize vizkit3d world
     //this method initialize a thread with event loop
@@ -131,10 +129,6 @@ void Task::updateHook() {
     TaskBase::updateHook();
     updateJoints();
     updatePose();
-
-    if (showGui) {
-        vizkit3dWorld->process();
-    }
 }
 
 void Task::errorHook() {
