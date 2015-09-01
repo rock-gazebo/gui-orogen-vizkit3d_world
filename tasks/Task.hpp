@@ -23,21 +23,21 @@ namespace vizkit3d_world {
      \endverbatim
      *  It can be dynamically adapted when the deployment is called with a prefix argument. 
      */
-    class Task : public TaskBase, public EventListener
+    class Task : public TaskBase
     {
 	friend class TaskBase;
 
     private:
 
-	    /**
-	     * set the posfix
-	     */
-	    static const std::string JOINTS_CMD_POSFIX;
+        /**
+         * set the posfix
+         */
+        static const std::string JOINTS_CMD_POSFIX;
 
 
-	    /**
-	     * map the model name and the port name
-	     */
+        /**
+         * map the model name and the port name
+         */
         std::map<std::string, std::string> mapModel;
 
         /**
@@ -139,7 +139,6 @@ namespace vizkit3d_world {
          */
         void setupJointsPorts();
 
-
         /**
          * Release joints input ports
          */
@@ -156,10 +155,6 @@ namespace vizkit3d_world {
          * Update model pose
          */
         void updatePose();
-
-        virtual void onCreateWorld() {}
-
-        virtual void onDestroyWorld() {}
     };
 }
 

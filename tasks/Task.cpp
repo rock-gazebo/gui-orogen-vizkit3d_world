@@ -107,17 +107,12 @@ bool Task::configureHook() {
     if (!TaskBase::configureHook())
         return false;
 
-    showGui = _show_gui.value();
     //create an instance from Vizkit3dWorld
     vizkit3dWorld = new Vizkit3dWorld(_world_file_path.value(),
-                                      _model_paths.value(),
-                                      showGui);
-
-    vizkit3dWorld->setEventListener(this);
+                                      _model_paths.value());
 
     //Initialize vizkit3d world
     //this method initialize a thread with event loop
-    vizkit3dWorld->initialize();
     setupJointsPorts();
 
     return true;
@@ -134,10 +129,6 @@ void Task::updateHook() {
     TaskBase::updateHook();
     updateJoints();
     updatePose();
-
-    if (showGui) {
-        vizkit3dWorld->notifyEvents();
-    }
 }
 
 void Task::errorHook() {
@@ -146,15 +137,13 @@ void Task::errorHook() {
 
 void Task::stopHook() {
     TaskBase::stopHook();
-    releaseJointsPorts();
-    vizkit3dWorld->deinitialize();
 }
 
 void Task::cleanupHook() {
     TaskBase::cleanupHook();
 
-    if (vizkit3dWorld){
-        delete vizkit3dWorld;
-        vizkit3dWorld = NULL;
-    }
+    releaseJointsPorts();
+    delete vizkit3dWorld;
+    vizkit3dWorld = NULL;
 }
+
