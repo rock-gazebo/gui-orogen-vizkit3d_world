@@ -23,6 +23,7 @@ task_context "Task" do
     property("world_file_path", "/std/string")
 
     #
+
     # set the virtual camera width
     #
     property("width", "int", 800)
@@ -31,6 +32,10 @@ task_context "Task" do
     # set the virtual camera height
     #
     property("height", "int", 600)
+
+    # List of models that will be ignored from the camera view
+    #
+    property("ignore_sdf_list", "/std/vector</std/string>")
 
     #
     # it is used to set the pose of the models
