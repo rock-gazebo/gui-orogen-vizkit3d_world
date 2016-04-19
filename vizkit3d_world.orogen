@@ -23,6 +23,16 @@ task_context "Task" do
     property("world_file_path", "/std/string")
 
     #
+    # set the virtual camera width
+    #
+    property("width", "int", 800)
+
+    #
+    # set the virtual camera height
+    #
+    property("height", "int", 600)
+
+    #
     # it is used to set the pose of the models
     #
     input_port("pose_cmd", "/base/samples/RigidBodyState").
