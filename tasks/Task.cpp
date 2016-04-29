@@ -110,6 +110,7 @@ bool Task::configureHook() {
     //create an instance from Vizkit3dWorld
     vizkit3dWorld = new Vizkit3dWorld(_world_file_path.value(),
                                       _model_paths.value(),
+                                      _ignored_models.get(),
                                       _width.get(),
                                       _height.get());
 
