@@ -35,7 +35,7 @@ task_context "Task" do
 
     # List of models that will be ignored from the camera view
     #
-    property("ignore_sdf_list", "/std/vector</std/string>")
+    property("ignored_models", "/std/vector</std/string>")
 
     #
     # it is used to set the pose of the models
