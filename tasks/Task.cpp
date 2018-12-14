@@ -112,7 +112,11 @@ bool Task::configureHook() {
                                       _model_paths.value(),
                                       _ignored_models.get(),
                                       _width.get(),
-                                      _height.get());
+                                      _height.get(),
+                                      60,
+                                      0.01,
+                                      1000,
+                                      _widgets.get());
 
     //Initialize vizkit3d world
     //this method initialize a thread with event loop

@@ -36,6 +36,10 @@ task_context "Task" do
     # List of models that will be ignored from the camera view
     #
     property("ignored_models", "/std/vector</std/string>")
+    
+    # Number of widgets allowed for multithread
+    #
+    property("widgets", "int", 1)
 
     #
     # it is used to set the pose of the models
