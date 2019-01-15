@@ -52,7 +52,9 @@ namespace vizkit3d_world {
         /**
          * Used to manage the scene in C/C++
          */
-	    Vizkit3dWorld *vizkit3dWorld;
+	    std::vector<Vizkit3dWorld*> vizkit3dWorlds;
+        //to maintain backward compatibility
+	    Vizkit3dWorld* vizkit3dWorld;
 
     public:
         /** TaskContext constructor for Task
