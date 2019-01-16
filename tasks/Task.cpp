@@ -160,6 +160,8 @@ void Task::cleanupHook() {
     for(auto vizkit3dWorld: vizkit3dWorlds)
     {
         delete vizkit3dWorld;
+        vizkit3dWorld = NULL;
     }
+    vizkit3dWorlds.clear();
 }
 
