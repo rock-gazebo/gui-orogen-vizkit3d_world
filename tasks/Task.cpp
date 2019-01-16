@@ -21,32 +21,27 @@ Task::~Task() {
 
 void Task::setupJointsPorts() 
 {
-    if(vizkit3dWorlds[0])
+    //get a map with robot models
+    vizkit3d_world::RobotVizMap robotVizMap = vizkit3dWorlds[0]->getRobotVizMap();
+
+    //create a input port to receive joints state to each model
+    for (vizkit3d_world::RobotVizMap::iterator it = robotVizMap.begin();
+        it != robotVizMap.end();
+        it++)
     {
-        //get a map with robot models
-        vizkit3d_world::RobotVizMap robotVizMap = vizkit3dWorlds[0]->getRobotVizMap();
+        //set the joint name
+        //joint name is model name concatenate with posfix ":joints_cmd"
+        std::string nameCmd = it->first + JOINTS_CMD_POSFIX;
 
-        //create a input port to receive joints state to each model
-        for (vizkit3d_world::RobotVizMap::iterator it = robotVizMap.begin();
-            it != robotVizMap.end();
-            it++)
-        {
-            //set the joint name
-            //joint name is model name concatenate with posfix ":joints_cmd"
-            std::string nameCmd = it->first + JOINTS_CMD_POSFIX;
+        RTT::InputPort<base::samples::Joints> *portIn = new RTT::InputPort<base::samples::Joints>(nameCmd);
 
-            RTT::InputPort<base::samples::Joints> *portIn = new RTT::InputPort<base::samples::Joints>(nameCmd);
+        //this map stores the original model name and the port name is the key
+        mapModel.insert(std::make_pair(nameCmd, it->first));
+        //this map stores the input port and the port name is the key
+        mapPorts.insert(std::make_pair(nameCmd, portIn));
 
-            //this map stores the original model name and the port name is the key
-            mapModel.insert(std::make_pair(nameCmd, it->first));
-            //this map stores the input port and the port name is the key
-            mapPorts.insert(std::make_pair(nameCmd, portIn));
-
-            ports()->addEventPort(*portIn);
-        }
+        ports()->addEventPort(*portIn);
     }
-    else 
-        RTT::log(RTT::Warning) << "Unable to start joints_samples and joints_cmd." << std::endl;
 }
 
 void Task::releaseJointsPorts(){
@@ -113,6 +108,9 @@ bool Task::configureHook() {
         return false;
 
     //create an instance from Vizkit3dWorld
+    if(_widgets.get() < 1)
+        throw std::runtime_error("There must be at least one instance of Vizkit3dWorld");
+
     for(int i = 0; i < _widgets.get(); ++i)
     {
         Vizkit3dWorld* vizkit3dWorld = new Vizkit3dWorld(_world_file_path.value(),
