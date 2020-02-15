@@ -7,11 +7,12 @@ using_library "vizkit3d_world"
 
 task_context "Task" do
     needs_configuration
+    needs_global_initializer :qt
 
     # Input ports to update the model's joints. They are created based on the
     # world's model
     dynamic_input_port /:joints_cmd$/, '/base/samples/Joints'
-    
+
     #
     # Paths to resolve the model:// URIs in the world file.
     #
@@ -36,7 +37,7 @@ task_context "Task" do
     # List of models that will be ignored from the camera view
     #
     property("ignored_models", "/std/vector</std/string>")
-    
+
     # Number of widgets allowed for multithread
     #
     property("widgets", "int", 1)
