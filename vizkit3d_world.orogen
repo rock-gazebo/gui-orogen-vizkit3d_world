@@ -4,8 +4,9 @@ import_types_from "base"
 import_types_from "vizkit3d_worldTypes.hpp"
 
 using_library "vizkit3d_world"
+using_task_library "qt_base"
 
-task_context "Task" do
+task_context "Task", subclasses: 'qt_base::Task' do
     needs_configuration
     needs_global_initializer :qt
 

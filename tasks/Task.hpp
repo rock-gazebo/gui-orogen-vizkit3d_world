@@ -28,10 +28,6 @@ namespace vizkit3d_world {
 	friend class TaskBase;
 
     private:
-        QObject* mExecutor;
-        QMutex mExecutorLock;
-        QWaitCondition mExecutorSignal;
-
         /**
          * set the posfix
          */
@@ -51,14 +47,12 @@ namespace vizkit3d_world {
         bool showGui;
 
     protected:
-        void processInQtThread(std::function<void()> f);
-
         /**
          * Used to manage the scene in C/C++
          */
-	    std::vector<Vizkit3dWorld*> vizkit3dWorlds;
+        std::vector<Vizkit3dWorld*> vizkit3dWorlds;
         //to maintain backward compatibility
-	    Vizkit3dWorld* vizkit3dWorld;
+        Vizkit3dWorld* vizkit3dWorld;
 
     public:
         /** TaskContext constructor for Task
@@ -103,8 +97,6 @@ namespace vizkit3d_world {
          */
         bool startHook();
 
-        virtual void startUI();
-
         /** This hook is called by Orocos when the component is in the Running
          * state, at each activity step. Here, the activity gives the "ticks"
          * when the hook should be called.
@@ -137,8 +129,6 @@ namespace vizkit3d_world {
          * from Running to Stopped after stop() has been called.
          */
         void stopHook();
-
-        virtual void stopUI();
 
         /** This hook is called by Orocos when the state machine transitions
          * from Stopped to PreOperational, requiring the call to configureHook()

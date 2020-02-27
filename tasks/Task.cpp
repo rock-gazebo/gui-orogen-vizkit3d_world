@@ -7,54 +7,6 @@ using namespace vizkit3d_world;
 
 const string Task::JOINTS_CMD_POSFIX = ":joints_cmd";
 
-struct MethodInQtThreadFailed : runtime_error {
-    using runtime_error::runtime_error;
-};
-
-struct MethodExecutionEvent : public QEvent {
-    QMutex& mLock;
-    QWaitCondition& mSignal;
-    bool& mResult;
-    string& mMessage;
-
-    MethodExecutionEvent(QMutex& lock, QWaitCondition& signal,
-                         bool& result, string& message)
-        : QEvent(QEvent::User)
-        , mLock(lock), mSignal(signal), mResult(result), mMessage(message) { }
-
-    function<void()> f;
-};
-
-class MethodExecutionObject : public QObject {
-    bool event(QEvent* event) {
-        auto ev = dynamic_cast<MethodExecutionEvent*>(event);
-        if (ev) {
-            try {
-                ev->f();
-
-                QMutexLocker sync(&(ev->mLock));
-                ev->mResult = true;
-                ev->mSignal.wakeAll();
-            }
-            catch (exception const& e) {
-                QMutexLocker sync(&(ev->mLock));
-                ev->mResult = false;
-                ev->mMessage = e.what();
-                ev->mSignal.wakeAll();
-            }
-            catch (...) {
-                QMutexLocker sync(&(ev->mLock));
-                ev->mResult = false;
-                ev->mMessage =
-                    "exception thrown that is not a subclass of exception";
-                ev->mSignal.wakeAll();
-            }
-            return true;
-        }
-        return false;
-    }
-};
-
 Task::Task(string const& name) :
         TaskBase(name)
 {
@@ -72,22 +24,14 @@ Task::~Task() {
 // hooks defined by Orocos::RTT. See Task.hpp for more detailed
 // documentation about them.
 bool Task::configureHook() {
-
-    if (!TaskBase::configureHook()) {
-        return false;
-    }
-
     //create an instance from Vizkit3dWorld
     if (_widgets.get() < 1) {
         throw runtime_error("There must be at least one instance of Vizkit3dWorld");
     }
 
-    if (!mExecutor) {
-        mExecutor = new MethodExecutionObject();
-        mExecutor->moveToThread(QApplication::instance()->thread());
+    if (!TaskBase::configureHook()) {
+        return false;
     }
-
-    processInQtThread(bind(&Task::configureUI, this));
 
     //Initialize vizkit3d world
     //this method initialize a thread with event loop
@@ -118,17 +62,11 @@ bool Task::startHook() {
         return false;
     }
 
-    processInQtThread(bind(&Task::startUI, this));
     return true;
-}
-
-void Task::startUI() {
 }
 
 void Task::updateHook() {
     TaskBase::updateHook();
-
-    processInQtThread(bind(&Task::updateUI, this));
 }
 
 
@@ -146,17 +84,12 @@ void Task::errorUI() {
 
 void Task::stopHook() {
     TaskBase::stopHook();
-    processInQtThread(bind(&Task::stopUI, this));
-}
-
-void Task::stopUI() {
 }
 
 void Task::cleanupHook() {
     releaseJointsPorts();
 
     TaskBase::cleanupHook();
-    processInQtThread(bind(&Task::cleanupUI, this));
 }
 
 void Task::cleanupUI() {
@@ -245,20 +178,3 @@ void Task::updatePose() {
     }
 }
 
-
-void Task::processInQtThread(function<void()> f) {
-    QMutexLocker sync(&mExecutorLock);
-
-    bool result = true;
-    string message;
-    auto* event = new MethodExecutionEvent(
-        mExecutorLock, mExecutorSignal, result, message
-    );
-    event->f = f;
-    QApplication::instance()->postEvent(mExecutor, event);
-
-    mExecutorSignal.wait(&mExecutorLock);
-    if (!result) {
-        throw MethodInQtThreadFailed(message);
-    }
-}
