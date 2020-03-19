@@ -1,11 +1,12 @@
 <package>
-  <description brief="">
-  
+  <description brief="Management of a Vizkit3D environment to reflect dynamic position changes">
+      This package implements a base support to update poses and joints of elements in a Vizkit3D
+      world. The goal is to have the world set up and updated, while being able to add Vizkit3D
+      plugins to display extra information (e.g. a laser line, an osgOcean environment, ...)
   </description>
-  <author>/</author>
-  <license></license>
-  <url>http://</url>
-  <logo>http://</logo>
+
+  <license>LGPLv2 or later</license>
   <depend package="base/cmake" />
   <depend package="gui/vizkit3d_world" />
+  <depend package="gui/orogen/qt_base" />
 </package>
