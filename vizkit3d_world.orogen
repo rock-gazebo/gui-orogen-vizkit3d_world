@@ -8,7 +8,7 @@ using_task_library "qt_base"
 
 task_context "Task", subclasses: 'qt_base::Task' do
     needs_configuration
-    needs_global_initializer :qt
+    needs_global_initializer :qt_base
 
     # Input ports to update the model's joints. They are created based on the
     # world's model
